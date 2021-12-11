@@ -48,9 +48,12 @@ DEBUG_GDB = False
 NUM_NODES = 2
 PUB_TIMING_VALS = [1000, 5000, 10000, 15000]
 RUN_NUMBER_VALS = list(range(1, 4))
-LOG_PREFIX = "default-topology"
-TOPO_FILE = "/home/vagrant/mini-ndn/topologies/default-topology.conf"
+
 cwd=os.getcwd()+"/"
+
+LOG_PREFIX = "default_topology_4_n"
+TOPO_FILE = cwd+"topologies/default_topology_4_n.conf"
+
 SYNC_EXEC_VALS = [
     cwd+"ndn-svs/build/examples/chat",          # SVS
     #"/home/vagrant/mini-ndn/work/ChronoSync/build/examples/eval",       # Chronosync
