@@ -82,12 +82,12 @@ public:
 
     std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
     publishMsg(init_msg);
-
+    publishMsg("hello from B");
     std::string userInput = "";
 
     while (true) {
       std::getline(std::cin, userInput);
-      publishMsg(userInput);
+      // publishMsg(userInput);
     }
 
     thread_svs.join();

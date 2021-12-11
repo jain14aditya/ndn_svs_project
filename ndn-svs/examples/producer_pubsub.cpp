@@ -70,12 +70,13 @@ public:
     std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
     publishMsg(init_msg);
 
-    std::string userInput = "checking";
+    std::string userInput = "";
+    publishMsg("hello world");
     int cnt = 0;
     while (true) {
       // std::getline(std::cin, userInput);
-      userInput = userInput + std::to_string(cnt);
-      publishMsg(userInput);
+      // userInput = userInput + std::to_string(cnt);
+      // publishMsg(userInput);
     }
     // publishMsg("qwerty hi1");
     // publishMsg("qwerty hi2");
