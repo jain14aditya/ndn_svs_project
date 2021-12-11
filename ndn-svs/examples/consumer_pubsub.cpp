@@ -111,7 +111,6 @@ public:
   run()
   {
     std::thread thread_svs([this] { face.processEvents(); });
-s
     // std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
     // publishMsg(init_msg);
     // publishMsg("hello from B");
