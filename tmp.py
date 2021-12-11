@@ -253,7 +253,7 @@ if __name__ == '__main__':
                 while count > 0:
                     wait_itr+=1
                     if wait_itr==3:
-                        dir_path=logpath+"/stdout"
+                        dir_path=LOG_MAIN_DIRECTORY+LOG_NAME+"/stdout"
                         files_generated=os.listdir(dir_path)
                         for file in files_generated:
                             with open(dir_path+"/"+file, "r") as f:
