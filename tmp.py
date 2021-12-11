@@ -53,12 +53,12 @@ RUN_NUMBER_VALS = list(range(1, 2))
 
 cwd=os.getcwd()+"/"
 
-# LOG_PREFIX = "default_topology_2_n"
-# TOPO_FILE = cwd+"topologies/default_topology_2_n.conf"
+LOG_PREFIX = "default_topology_2_n"
+TOPO_FILE = cwd+"topologies/default_topology_2_n.conf"
 
 
-LOG_PREFIX = "default_topology_4_n"
-TOPO_FILE = cwd+"topologies/default_topology_4_n.conf"
+# LOG_PREFIX = "default_topology_4_n"
+# TOPO_FILE = cwd+"topologies/default_topology_4_n.conf"
 
 # LOG_PREFIX = "default_topology_3_n"
 # TOPO_FILE = cwd+"topologies/default_topology_3_n.conf"
@@ -115,7 +115,8 @@ class SvsChatApplication(Application):
 
     def start(self): 
         # exe = SYNC_EXEC
-        exe =  cwd+"ndn-svs/build/examples/producer_pubsub"
+        # exe =  cwd+"ndn-svs/build/examples/producer_pubsub"
+        exe =  cwd+"ndn-svs/build/examples/consumer_pubsub"
         print(self.node.name)
         # if self.node.name == "a": 
         #     exe =  cwd+"ndn-svs/build/examples/producer_chat" 
@@ -167,7 +168,9 @@ def get_pids():
         try:
             pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])
             # Check if process name contains the given name string.
-            if ("gdb" if DEBUG_GDB else "producer_pubsub") in pinfo['name'].lower():
+            # if ("gdb" if DEBUG_GDB else "producer_pubsub") in pinfo['name'].lower():
+            #     pids.append(pinfo['pid'])
+            if ("gdb" if DEBUG_GDB else "consumer_pubsub") in pinfo['name'].lower():
                 pids.append(pinfo['pid'])
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass

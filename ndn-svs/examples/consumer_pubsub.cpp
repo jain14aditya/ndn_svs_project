@@ -20,7 +20,23 @@
 #include <vector>
 #include <ndn-svs/svspubsub.hpp>
 #include <stdlib.h>
+
+#include <chrono>
+#include <ctime>
+#include <string>
+#include <sstream>
+
 using namespace ndn::svs;
+
+
+std::string return_current_time_and_date() {
+  // std::time_t result = std::time(nullptr);
+  const auto p1 = std::chrono::system_clock::now();
+  std::stringstream ss;
+  ss << std::chrono::duration_cast<std::chrono::milliseconds>(p1.time_since_epoch()).count();
+  return ss.str();
+}
+
 
 class Options
 {
@@ -81,14 +97,14 @@ public:
   {
     std::thread thread_svs([this] { face.processEvents(); });
 
-    std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
-    publishMsg(init_msg);
+    // std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
+    // publishMsg(init_msg);
     // publishMsg("hello from B");
     std::string userInput = "";
 
     while (true) {
-      std::getline(std::cin, userInput);
-      publishMsg(userInput);
+      // std::getline(std::cin, userInput);
+      // publishMsg(userInput);
     }
 
     thread_svs.join();
@@ -117,6 +133,48 @@ protected:
     m_keyChain.sign(data, m_signingInfo);
 
     m_svspubsub->publishData(data);
+  }
+
+  void test() {
+    // Abort if received one interrupt
+    if (receivedSigInt) return;
+    // m_participantPrefix
+    // Number of data segments
+    int voiceSize = 1;
+
+    ndn::Name name("/ndn");
+    name.append(m_options.m_id);
+    name.appendTimestamp();
+    name.appendVersion(0);
+
+    // Create all data segments
+    for (int i = 0; i < voiceSize; i++) {
+
+        // Generate a block of random Data
+        std::array<__uint8_t, 1000> buf{};
+        ndn::random::generateSecureBytes(buf.data(), 512);
+        ndn::Block block = ndn::encoding::makeBinaryBlock(
+                ndn::tlv::Content, buf.data(), 512);
+
+        // Data packet
+        ndn::Name realName(name);
+        realName.appendSegment(i);
+
+        std::shared_ptr<ndn::Data> data = std::make_shared<ndn::Data>(realName);
+        data->setContent(block);
+        data->setFreshnessPeriod(ndn::time::milliseconds(1000));
+        data->setFinalBlock(ndn::name::Component::fromNumber(voiceSize - 1));
+        m_keyChain.sign(*data, m_signingInfo);
+
+        // m_dataStore.insert(*data);
+
+        // Publish first segment of voice data using publish channel
+        // if (i == 0) {
+        publishData(*data);
+            // BOOST_LOG_TRIVIAL(info) << "PUBL_MSG::" << realName.toUri();
+        std::cout << "Publish voice data: " << data->getName() << " (" << buf.size() * voiceSize << " bytes)"
+                      << std::endl;
+        // }
   }
 
 public:
