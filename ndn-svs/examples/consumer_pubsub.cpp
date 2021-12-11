@@ -69,10 +69,38 @@ public:
       const std::string content_str((char *) subData.data.getContent().value(), data_size);
 
       std::cout << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
-                   subData.data.getName() << " : " << content_str << << " finalBlockId = " << segments << std::endl;
-      fetchVoiceSegements(subData.data.getName(), segments);
+                   subData.data.getName() << " : " << content_str << " finalBlockId = " << segments << std::endl;
+      fetchOutStandingVoiceSegements(subData.data.getName(), segments);
     }, true);
   }
+
+
+
+  void
+    static onRegisterFailed(const ndn::Name &prefix, const std::string &reason) {
+        std::cerr << "ERROR: Failed to register prefix '" << prefix
+                  << "' with the local forwarder (" << reason << ")" << std::endl;
+    }
+
+    void static
+    onData(const ndn::Interest &, const ndn::Data &data) const {
+        std::cout << "Got Data: " << data.getName() << std::endl;
+        // Todo: Log received Data packet
+    }
+
+    void static
+    onNack(const ndn::Interest &, const ndn::lp::Nack &nack) const {
+        // should not happen since we do not send Nacks
+        std::cout << "Received Nack with reason " << nack.getReason() << std::endl;
+    }
+
+    void static
+    onTimeout(const ndn::Interest &interest) const {
+        // Todo: Log that data one was not able to retrieve Data
+
+        std::cout << "Timeout for " << interest << std::endl;
+    }
+
 
   void
   fetchOutStandingVoiceSegements(ndn::Name name, int finalBlockId) {
@@ -92,31 +120,7 @@ public:
   }
 
 
-   void
-    onRegisterFailed(const ndn::Name &prefix, const std::string &reason) {
-        std::cerr << "ERROR: Failed to register prefix '" << prefix
-                  << "' with the local forwarder (" << reason << ")" << std::endl;
-    }
-
-    void
-    onData(const ndn::Interest &, const ndn::Data &data) const {
-        std::cout << "Got Data: " << data.getName() << std::endl;
-        // Todo: Log received Data packet
-    }
-
-    void
-    onNack(const ndn::Interest &, const ndn::lp::Nack &nack) const {
-        // should not happen since we do not send Nacks
-        std::cout << "Received Nack with reason " << nack.getReason() << std::endl;
-    }
-
-    void
-    onTimeout(const ndn::Interest &interest) const {
-        // Todo: Log that data one was not able to retrieve Data
-
-        std::cout << "Timeout for " << interest << std::endl;
-    }
-
+   
 
   void
   run()
