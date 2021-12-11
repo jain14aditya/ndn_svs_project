@@ -31,7 +31,7 @@ std::string return_current_time_and_date() {
   // std::time_t result = std::time(nullptr);
   const auto p1 = std::chrono::system_clock::now();
   std::stringstream ss;
-  ss << std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
+  ss << std::chrono::duration_cast<std::chrono::milliseconds>(p1.time_since_epoch()).count();
   // ss << std::asctime(std::localtime(&result)) << result;
   // std::cout << "testing = " << ss.str() << std::endl;
   return ss.str();
