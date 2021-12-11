@@ -57,7 +57,8 @@ LOG_PREFIX = "default_topology_2_n"
 TOPO_FILE = cwd+"topologies/default_topology_2_n.conf"
 
 SYNC_EXEC_VALS = [
-    cwd+"ndn-svs/build/examples/chat",          # SVS
+    cwd+"ndn-svs/build/examples/eval",          # SVS
+    # cwd+"ndn-svs/build/examples/chat",          # SVS
     #"/home/vagrant/mini-ndn/work/ChronoSync/build/examples/eval",       # Chronosync
     # "/home/vagrant/mini-ndn/work/PSync/build/examples/psync-eval",      # PSync
     #"/home/vagrant/mini-ndn/work/syncps/eval",                          # syncps
@@ -104,10 +105,10 @@ class SvsChatApplication(Application):
         print(self.node.name)
         # if self.node.name == "a": 
         #     exe =  cwd+"ndn-svs/build/examples/producer_chat" 
-        if self.node.name == "a": 
-            exe =  cwd+"ndn-svs/build/examples/producer_pubsub"  
-        if self.node.name == "b": 
-            exe =  cwd+"ndn-svs/build/examples/consumer_pubsub"  
+        # if self.node.name == "a": 
+        #     exe =  cwd+"ndn-svs/build/examples/producer_pubsub"  
+        # if self.node.name == "b": 
+        #     exe =  cwd+"ndn-svs/build/examples/consumer_pubsub"  
         identity = self.get_svs_identity()
 
         if DEBUG_GDB:

@@ -13,13 +13,17 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  */
-
 #include <iostream>
 #include <string>
 #include <thread>
 #include <vector>
+#include <stdlib.h>
 
 #include <ndn-svs/svsync-base.hpp>
+
+#include "log.hpp"
+
+int m_stateVectorLogIntervalInMilliseconds = 1000;
 
 class Options
 {
@@ -36,28 +40,47 @@ class Program
 public:
   Program(const Options &options)
     : m_options(options)
+    , m_scheduler(face.getIoService())
+    , m_rng(ndn::random::getRandomNumberEngine())
+    , m_sleepTime(averageTimeBetweenPublishesInMilliseconds - varianceInTimeBetweenPublishesInMilliseconds, averageTimeBetweenPublishesInMilliseconds + varianceInTimeBetweenPublishesInMilliseconds)
   {
-    std::cout << "SVS client starting:" << m_options.m_id << std::endl;
-    m_signingInfo.setSha256Signing();
+    m_scheduler.schedule(ndn::time::milliseconds(m_sleepTime(m_rng)),
+                         [this] { runIter(); });
   }
 
   void
   run()
   {
-    face.processEvents(); 
-    // std::thread thread_svs([this] { face.processEvents(); });
+    BOOST_LOG_TRIVIAL(info) << "NODE_INIT::" << m_options.m_id;
+    face.processEvents();
+  }
 
-    // std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
-    // publishMsg(init_msg);
+  void
+  runIter()
+  {
+    if (start_time == 0) {
+      start_time = static_cast<long int> (time(NULL));
+    }
 
-    // std::string userInput = "";
+    long int curr_time = static_cast<long int> (time(NULL));
 
-    // while (true) {
-    //   std::getline(std::cin, userInput);
-    //   publishMsg(userInput);
-    // }
+    if (curr_time - start_time <= 120) {
+      curr_i++;
+      std::ostringstream ss = std::ostringstream();
+      ss << m_options.m_id << "=" << curr_i;
+      std::string message = ss.str();
+      publishMsg(message);
+      BOOST_LOG_TRIVIAL(info) << "PUBL_MSG::" << m_options.m_id << "::" << message;
+    }
 
-    // thread_svs.join();
+    if (curr_time - start_time <= 120 + 30) {
+      m_scheduler.schedule(ndn::time::milliseconds(m_sleepTime(m_rng)),
+                           [this] { runIter(); });
+      return;
+    }
+
+    m_svs.reset();
+    face.shutdown();
   }
 
 protected:
@@ -68,13 +91,14 @@ protected:
     {
       for (ndn::svs::SeqNo s = v[i].low; s <= v[i].high; ++s)
       {
-        ndn::svs::NodeID nid = v[i].nodeId;
-        m_svs->fetchData(nid, s, [nid] (const ndn::Data& data)
+        ndn::svs::NodeID nid = v[i].session;
+        BOOST_LOG_TRIVIAL(info) << "RECV_STATE::" << nid << "::" << s;
+        /* m_svs->fetchData(nid, s, [&] (const ndn::Data& data)
           {
-            const size_t data_size = data.getContent().value_size();
-            const std::string content_str((char *)data.getContent().value(), data_size);
-            std::cout << data.getName() << " : " << content_str << std::endl;
-          });
+            size_t data_size = data.getContent().value_size();
+            std::string content_str((char *)data.getContent().value(), data_size);
+            BOOST_LOG_TRIVIAL(info) << "RECV_MSG::" << m_options.m_id << "::" << content_str;
+          }, 5);*/
       }
     }
   }
@@ -82,34 +106,41 @@ protected:
   void
   publishMsg(std::string msg)
   {
-    // Content block
-    ndn::Block block = ndn::encoding::makeBinaryBlock(
-      ndn::tlv::Content,
-      reinterpret_cast<const uint8_t*>(msg.c_str()), msg.size());
-    m_svs->publishData(block, ndn::time::milliseconds(1000));
+    m_svs->publishData(reinterpret_cast<const uint8_t*>(msg.c_str()),
+                       msg.size(),
+                       ndn::time::milliseconds(1000));
   }
 
 public:
   const Options m_options;
   ndn::Face face;
   std::shared_ptr<ndn::svs::SVSyncBase> m_svs;
-  ndn::KeyChain m_keyChain;
-  ndn::security::SigningInfo m_signingInfo;
+  ndn::Scheduler m_scheduler;
+
+  ndn::random::RandomNumberEngine& m_rng;
+  std::uniform_int_distribution<> m_sleepTime;
+
+  long int start_time = 0;
+  int curr_i = 0;
 };
 
 template <typename T>
 int
 callMain(int argc, char **argv) {
- // if (argc != 2) {
- //   std::cout << "Usage: client <prefix>" << std::endl;
-  //  exit(1);
-  //}
+  // if (argc != 4) {
+  //   BOOST_LOG_TRIVIAL(error) << "WRONG_ARGS";
+  //   exit(1);
+  // }
+
+  averageTimeBetweenPublishesInMilliseconds = strtol(argv[3], NULL, 10);
+  varianceInTimeBetweenPublishesInMilliseconds = averageTimeBetweenPublishesInMilliseconds / 5;
 
   Options opt;
   opt.prefix = "/ndn/svs";
   opt.m_id = argv[1];
-  //opt.m_id = "a";
-  // initlogger(std::string(argv[2]));
+
+  initlogger(std::string(argv[2]));
+
   T program(opt);
   program.run();
   return 0;
