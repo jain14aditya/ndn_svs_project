@@ -171,7 +171,7 @@ protected:
 
         // Publish first segment of voice data using publish channel
         // if (i == 0) {
-        m_svspubsub->publishData(data);
+        m_svspubsub->publishData(*data);
             // BOOST_LOG_TRIVIAL(info) << "PUBL_MSG::" << realName.toUri();
         std::cout << "Publish voice data: " << data->getName() << " (" << buf.size() * voiceSize << " bytes)"
                       << std::endl;
