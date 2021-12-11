@@ -20,6 +20,7 @@
 #include <vector>
 #include <ndn-svs/svspubsub.hpp>
 #include <stdlib.h>
+#include <chrono>
 using namespace ndn::svs;
 
 class Options
@@ -71,7 +72,11 @@ public:
     // publishMsg(init_msg);
 
     std::string userInput = m_options.m_id;
-    publishMsg("hello world");
+  
+
+    std::string s = date::format("%F %T", std::chrono::system_clock::now());
+    publishMsg(s);
+    // publishMsg("hello world");
     // int cnt = 0;
     while (true) {
       // std::getline(std::cin, userInput);
