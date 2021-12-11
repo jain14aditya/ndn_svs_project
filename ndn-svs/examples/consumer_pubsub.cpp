@@ -140,7 +140,7 @@ protected:
     // if (receivedSigInt) return;
     // m_participantPrefix
     // Number of data segments
-    int voiceSize = 1;
+    int voiceSize = 5;
 
     ndn::Name name("/ndn");
     name.append(m_options.m_id);
@@ -176,7 +176,7 @@ protected:
         // if (i == 0) {
         m_svspubsub->publishData(*data);
             // BOOST_LOG_TRIVIAL(info) << "PUBL_MSG::" << realName.toUri();
-        std::cout << "Publish voice data: " << data->getName() << " (" << buf.size() * voiceSize << " bytes)"
+        std::cout << "Publish voice data: " << data->getName() << " (" << msg.size() * voiceSize << " bytes)"
                       << std::endl;
         // }
     }
