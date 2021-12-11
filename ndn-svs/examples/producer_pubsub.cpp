@@ -71,7 +71,7 @@ public:
     // publishMsg(init_msg);
 
     std::string userInput = m_options.m_id;
-    // publishMsg("hello world");
+    publishMsg("hello world");
     // int cnt = 0;
     while (true) {
       // std::getline(std::cin, userInput);
