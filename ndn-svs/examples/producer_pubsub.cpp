@@ -95,22 +95,23 @@ protected:
   publishMsg(std::string msg)
   {
     // Content block
-    // ndn::Block block = ndn::encoding::makeBinaryBlock(
-    //   ndn::tlv::Content, reinterpret_cast<const uint8_t*>(msg.c_str()), msg.size());
+    ndn::Block block = ndn::encoding::makeBinaryBlock(
+      ndn::tlv::Content, reinterpret_cast<const uint8_t*>(msg.c_str()), msg.size());
 
     // Data packet
-    // ndn::Name name(m_options.m_id);
-    // name.appendTimestamp();
+    ndn::Name name(m_options.m_id);
+    name.appendTimestamp();
 
-    // ndn::Data data(name);
+    ndn::Data data(name);
+    data.setContent(block);
     // data.setContent(block);
-    // data.setFreshnessPeriod(ndn::time::milliseconds(1000));
-    // m_keyChain.sign(data, m_signingInfo);
+    data.setFreshnessPeriod(ndn::time::milliseconds(1000));
+    m_keyChain.sign(data, m_signingInfo);
 
-    // m_svspubsub->publishData(data);
+    m_svspubsub->publishData(data);
 
-    m_svspubsub->publishData(reinterpret_cast<const uint8_t*>(msg.c_str()),  
-                       msg.size(),ndn::time::milliseconds(1000));
+    // m_svspubsub->publishData(reinterpret_cast<const uint8_t*>(msg.c_str()),  
+    //                    msg.size(),ndn::time::milliseconds(1000));
   }
 
 public:
