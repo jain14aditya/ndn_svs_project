@@ -51,7 +51,7 @@ NUM_NODES = 2
 PUB_TIMING_VALS = []
 i=5
 while i<=100:
-    append(PUB_TIMING_VALS, i)
+    PUB_TIMING_VALS.append(i)
     i+=5
 # num_data_packets = 5
 # RUN_NUMBER_VALS = list(range(1, 4))
