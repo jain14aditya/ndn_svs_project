@@ -53,8 +53,15 @@ RUN_NUMBER_VALS = list(range(1, 2))
 
 cwd=os.getcwd()+"/"
 
-LOG_PREFIX = "default_topology_2_n"
-TOPO_FILE = cwd+"topologies/default_topology_2_n.conf"
+# LOG_PREFIX = "default_topology_2_n"
+# TOPO_FILE = cwd+"topologies/default_topology_2_n.conf"
+
+
+# LOG_PREFIX = "default_topology_2_n"
+# TOPO_FILE = cwd+"topologies/default_topology_2_n.conf"
+
+LOG_PREFIX = "default_topology_3_n"
+TOPO_FILE = cwd+"topologies/default_topology_3_n.conf"
 
 # LOG_PREFIX = "default_topology_4_n"
 # TOPO_FILE = cwd+"topologies/default_topology_4s_n.conf"
