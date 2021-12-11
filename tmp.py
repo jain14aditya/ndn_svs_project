@@ -101,7 +101,8 @@ class SvsChatApplication(Application):
         return "/ndn/{0}-site/{0}/svs_chat/{0}".format(self.node.name)
 
     def start(self): 
-        exe = SYNC_EXEC
+        # exe = SYNC_EXEC
+        exe =  cwd+"ndn-svs/build/examples/producer_pubsub"
         print(self.node.name)
         # if self.node.name == "a": 
         #     exe =  cwd+"ndn-svs/build/examples/producer_chat" 
@@ -153,7 +154,7 @@ def get_pids():
         try:
             pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])
             # Check if process name contains the given name string.
-            if ("gdb" if DEBUG_GDB else "eval") in pinfo['name'].lower():
+            if ("gdb" if DEBUG_GDB else "producer_pubsub") in pinfo['name'].lower():
                 pids.append(pinfo['pid'])
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
