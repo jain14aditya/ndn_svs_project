@@ -85,18 +85,19 @@ public:
       recv_data_packets++;
 
       const size_t data_size = subData.data.getContent().value_size();
+      const std::string content_str((char *) subData.data.getContent().value(), data_size);
 
       if(recv_data_packets==1) {
         start_time = std::stoll(content_str.substr(0, content_str.find("=")));
       }
       
       // int segments = subData.data.getFinalBlock()->toNumber();
-      const std::string content_str((char *) subData.data.getContent().value(), data_size);
+      
       if(recv_data_packets==num_data_packets) {
         std::string curr_time_str = return_current_time_and_date();
-      long long curr_time_ll = std::stoll(curr_time_str);
-      long long lat = curr_time_ll - start_time;
-      std::cout << "latency = " << lat << "ms " << subData.producerPrefix << "[" << subData.seqNo << "] : "  << std::endl;
+        long long curr_time_ll = std::stoll(curr_time_str);
+        long long lat = curr_time_ll - start_time;
+        std::cout << "latency = " << lat << "ms " << subData.producerPrefix << "[" << subData.seqNo << "] : "  << std::endl;
       }
        
       // std::cout << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
@@ -226,7 +227,7 @@ int main(int argc, char **argv)
   Options opt;
   opt.prefix = "/ndn/svs";
   opt.m_id = argv[1];
-  num_data_packets=argv[3];
+  num_data_packets= (int) argv[3];
   // initlogger(std::string(argv[2]));
   Program program(opt);
   program.run();
