@@ -52,15 +52,71 @@ public:
     std::cout << "SVS client starting:" << m_options.m_id << std::endl;
     m_signingInfo.setSha256Signing();
 
-    m_svspubsub->subscribeToProducer(ndn::Name("/ndn"), [&] (SVSPubSub::SubscriptionData subData)
+    // m_svspubsub->subscribeToProducer(ndn::Name("/ndn"), [&] (SVSPubSub::SubscriptionData subData)
+    // {
+    //   const size_t data_size = subData.data.getContent().value_size();
+
+    //   const std::string content_str((char *) subData.data.getContent().value(), data_size);
+
+    //   std::cout << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
+    //                subData.data.getName() << " : " << content_str << std::endl;
+    // }, true);
+
+     m_svspubsub->subscribeToProducer(ndn::Name("/ndn"), [&] (SVSPubSub::SubscriptionData subData)
     {
       const size_t data_size = subData.data.getContent().value_size();
+      int segments = subData.data.getFinalBlock()->toNumber();
       const std::string content_str((char *) subData.data.getContent().value(), data_size);
 
       std::cout << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
-                   subData.data.getName() << " : " << content_str << std::endl;
+                   subData.data.getName() << " : " << content_str << << " finalBlockId = " << segments << std::endl;
+      fetchVoiceSegements(subData.data.getName(), segments);
     }, true);
   }
+
+  void
+  fetchOutStandingVoiceSegements(ndn::Name name, int finalBlockId) {
+    ndn::Name withoutSegmentNo = name.getPrefix(name.size() - 1);
+
+    for (int i = 1; i <= finalBlockId; i++) {
+        ndn::Name toFetch(withoutSegmentNo);
+        toFetch.appendSegment(i);
+
+          ndn::Interest interest(toFetch);
+          interest.setCanBePrefix(true);
+          face.expressInterest(interest,
+                               bind(&onData, this, _1, _2),
+                               bind(&onNack, this, _1, _2),
+                               bind(&onTimeout, this, _1));
+      }
+  }
+
+
+   void
+    onRegisterFailed(const ndn::Name &prefix, const std::string &reason) {
+        std::cerr << "ERROR: Failed to register prefix '" << prefix
+                  << "' with the local forwarder (" << reason << ")" << std::endl;
+    }
+
+    void
+    onData(const ndn::Interest &, const ndn::Data &data) const {
+        std::cout << "Got Data: " << data.getName() << std::endl;
+        // Todo: Log received Data packet
+    }
+
+    void
+    onNack(const ndn::Interest &, const ndn::lp::Nack &nack) const {
+        // should not happen since we do not send Nacks
+        std::cout << "Received Nack with reason " << nack.getReason() << std::endl;
+    }
+
+    void
+    onTimeout(const ndn::Interest &interest) const {
+        // Todo: Log that data one was not able to retrieve Data
+
+        std::cout << "Timeout for " << interest << std::endl;
+    }
+
 
   void
   run()
@@ -72,10 +128,10 @@ public:
 
     std::string userInput = "";
 
-    while (true) {
-      std::getline(std::cin, userInput);
-      publishMsg(userInput);
-    }
+    // while (true) {
+    //   std::getline(std::cin, userInput);
+    //   publishMsg(userInput);
+    // }
 
     thread_svs.join();
   }
