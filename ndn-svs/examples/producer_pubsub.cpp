@@ -20,7 +20,28 @@
 #include <vector>
 #include <ndn-svs/svspubsub.hpp>
 #include <stdlib.h>
-#include "log.hpp"
+// #include "log.hpp"
+
+#include <boost/log/core.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/log/utility/setup/file.hpp>
+
+namespace logging = boost::log;
+namespace keywords = boost::log::keywords;
+
+void initlogger(std::string filename) {
+  logging::add_common_attributes();
+  logging::add_file_log
+  (
+    keywords::file_name = filename,
+    keywords::format = "\"%TimeStamp%\", \"%ProcessID%\", \"%ThreadID%\", \"%Message%\"",
+    keywords::open_mode = std::ios_base::app,
+    keywords::auto_flush = true
+  );
+}
+
+
 using namespace ndn::svs;
 
 class Options
