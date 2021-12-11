@@ -67,16 +67,16 @@ public:
   {
     std::thread thread_svs([this] { face.processEvents(); });
 
-    std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
-    publishMsg(init_msg);
+    // std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
+    // publishMsg(init_msg);
 
-    std::string userInput = "";
+    std::string userInput = m_options.m_id;
     // publishMsg("hello world");
     // int cnt = 0;
     while (true) {
-      std::getline(std::cin, userInput);
+      // std::getline(std::cin, userInput);
       // userInput = userInput + std::to_string(cnt);
-      publishMsg(userInput);
+      // publishMsg(userInput);
     }
     // publishMsg("qwerty hi1");
     // publishMsg("qwerty hi2");
@@ -95,19 +95,22 @@ protected:
   publishMsg(std::string msg)
   {
     // Content block
-    ndn::Block block = ndn::encoding::makeBinaryBlock(
-      ndn::tlv::Content, reinterpret_cast<const uint8_t*>(msg.c_str()), msg.size());
+    // ndn::Block block = ndn::encoding::makeBinaryBlock(
+    //   ndn::tlv::Content, reinterpret_cast<const uint8_t*>(msg.c_str()), msg.size());
 
     // Data packet
-    ndn::Name name(m_options.m_id);
-    name.appendTimestamp();
+    // ndn::Name name(m_options.m_id);
+    // name.appendTimestamp();
 
-    ndn::Data data(name);
-    data.setContent(block);
-    data.setFreshnessPeriod(ndn::time::milliseconds(1000));
-    m_keyChain.sign(data, m_signingInfo);
+    // ndn::Data data(name);
+    // data.setContent(block);
+    // data.setFreshnessPeriod(ndn::time::milliseconds(1000));
+    // m_keyChain.sign(data, m_signingInfo);
 
-    m_svspubsub->publishData(data);
+    // m_svspubsub->publishData(data);
+
+    m_svspubsub->publishData(reinterpret_cast<const uint8_t*>(msg.c_str()),  
+                       msg.size(),ndn::time::milliseconds(1000));
   }
 
 public:
