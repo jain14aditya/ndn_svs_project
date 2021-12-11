@@ -189,8 +189,7 @@ protected:
             // BOOST_LOG_TRIVIAL(info) << "PUBL_MSG::" << realName.toUri();
         // std::cout << "Publish voice data: " << data->getName() << " (" << msg.size() * data_size << " bytes)"
         //               << std::endl;
-        std::cout << "Publish voice data: " << data->getName() << " (" << buf.size() < " bytes)"
-                      << std::endl;
+        std::cout << "Publish voice data: " << data->getName() << " (" << buf.size() << " bytes)" << std::endl;
         // }
     }
   }
