@@ -101,7 +101,7 @@ public:
     // publishMsg(init_msg);
     // publishMsg("hello from B");
     std::string userInput = "";
-
+    test();
     while (true) {
       // std::getline(std::cin, userInput);
       // publishMsg(userInput);
