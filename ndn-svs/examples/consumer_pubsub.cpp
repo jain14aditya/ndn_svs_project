@@ -70,56 +70,9 @@ public:
 
       std::cout << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
                    subData.data.getName() << " : " << content_str << " finalBlockId = " << segments << std::endl;
-      fetchOutStandingVoiceSegements(subData.data.getName(), segments);
+      // fetchOutStandingVoiceSegements(subData.data.getName(), segments);
     }, true);
   }
-
-
-
-  void
-    static onRegisterFailed(const ndn::Name &prefix, const std::string &reason) {
-        std::cerr << "ERROR: Failed to register prefix '" << prefix
-                  << "' with the local forwarder (" << reason << ")" << std::endl;
-    }
-
-    void static
-    onData(const ndn::Interest &, const ndn::Data &data) const {
-        std::cout << "Got Data: " << data.getName() << std::endl;
-        // Todo: Log received Data packet
-    }
-
-    void static
-    onNack(const ndn::Interest &, const ndn::lp::Nack &nack) const {
-        // should not happen since we do not send Nacks
-        std::cout << "Received Nack with reason " << nack.getReason() << std::endl;
-    }
-
-    void static
-    onTimeout(const ndn::Interest &interest) const {
-        // Todo: Log that data one was not able to retrieve Data
-
-        std::cout << "Timeout for " << interest << std::endl;
-    }
-
-
-  void
-  fetchOutStandingVoiceSegements(ndn::Name name, int finalBlockId) {
-    ndn::Name withoutSegmentNo = name.getPrefix(name.size() - 1);
-
-    for (int i = 1; i <= finalBlockId; i++) {
-        ndn::Name toFetch(withoutSegmentNo);
-        toFetch.appendSegment(i);
-
-          ndn::Interest interest(toFetch);
-          interest.setCanBePrefix(true);
-          face.expressInterest(interest,
-                               bind(&onData, this, _1, _2),
-                               bind(&onNack, this, _1, _2),
-                               bind(&onTimeout, this, _1));
-      }
-  }
-
-
    
 
   void
