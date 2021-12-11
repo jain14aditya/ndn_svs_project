@@ -20,7 +20,21 @@
 #include <vector>
 #include <ndn-svs/svspubsub.hpp>
 #include <stdlib.h>
+
 #include <chrono>
+#include "date.h"
+#include <string>
+#include <sstream>
+
+std::string return_current_time_and_date() {
+  auto now = std::chrono::system_clock::now();
+  auto today = date::floor<days>(now);
+
+  std::stringstream ss;
+  ss << today << ' ' << date::make_time(now - today) << " UTC";
+  return ss.str();
+}
+
 using namespace ndn::svs;
 
 class Options
@@ -74,8 +88,8 @@ public:
     std::string userInput = m_options.m_id;
   
 
-    std::string s = date::format("%F %T", std::chrono::system_clock::now());
-    publishMsg(s);
+    // std::string s = date::format("%F %T", std::chrono::system_clock::now());
+    publishMsg(return_current_time_and_date());
     // publishMsg("hello world");
     // int cnt = 0;
     while (true) {
