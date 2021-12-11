@@ -28,9 +28,11 @@
 #include <sstream>
 
 std::string return_current_time_and_date() {
-  std::time_t result = std::time(nullptr);
+  // std::time_t result = std::time(nullptr);
+  const auto p1 = std::chrono::system_clock::now();
   std::stringstream ss;
-  ss << std::asctime(std::localtime(&result)) << result;
+  ss << std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
+  // ss << std::asctime(std::localtime(&result)) << result;
   // std::cout << "testing = " << ss.str() << std::endl;
   return ss.str();
   // auto now = std::chrono::system_clock::now();
@@ -97,6 +99,9 @@ public:
     // std::string s = date::format("%F %T", std::chrono::system_clock::now());
     publishMsg(return_current_time_and_date());
     publishMsg("hello world rdxdtfabcgsvfghsavfghdsvfghfbdsgbghsafhgdszvfygdsfvhgjdsfhgdbfghfbagsh");
+
+    publishMsg(return_current_time_and_date());
+    publishMsg("yo yo kgp");
     // int cnt = 0;
     while (true) {
       // publishMsg(return_current_time_and_date());
