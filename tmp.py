@@ -193,7 +193,7 @@ if __name__ == '__main__':
     end = int(time.time() * 1000)
     info('Added static routes to NFD in {} ms\n'.format(end - start))
     info('Sleeping 10 seconds\n')
-    time.sleep(3 if DEBUG_GDB else 10)
+    time.sleep(3 if DEBUG_GDB else 1)
 
     for exec_i, sync_exec in enumerate(SYNC_EXEC_VALS):
         for pub_timing in PUB_TIMING_VALS:
