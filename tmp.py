@@ -41,6 +41,7 @@ from minindn.helpers.ndn_routing_helper import NdnRoutingHelper
 from mininet.node import OVSController
 
 from tqdm import tqdm
+from shutil import copy
 
 # ======================= CONFIGURATION ============================
 OVERALL_RUN = 2
@@ -248,7 +249,16 @@ if __name__ == '__main__':
                 pids = get_pids()
                 info("pids: {}\n".format(pids))
                 count = count_running(pids)
+                wait_itr=0
                 while count > 0:
+                    wait_itr+=1
+                    if wait_itr==3:
+                        dir_path=logpath+"/stdout"
+                        files_generated=os.listdir(dir_path)
+                        for file in files_generated:
+                            with open(dir_path+"/"+file, "r") as f:
+                                copy(f, "/home/vagrant/mini-ndn/work/results/"+str(PUB_TIMING)+"/")
+                        break
                     info("{} nodes are runnning\n".format(count))
                     time.sleep(5)
                     count = count_running(pids)
