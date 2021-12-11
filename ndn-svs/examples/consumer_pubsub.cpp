@@ -85,10 +85,10 @@ public:
 
     std::string userInput = "";
 
-    // while (true) {
-    //   std::getline(std::cin, userInput);
-    //   publishMsg(userInput);
-    // }
+    while (true) {
+      std::getline(std::cin, userInput);
+      publishMsg(userInput);
+    }
 
     thread_svs.join();
   }
