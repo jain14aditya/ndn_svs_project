@@ -19,6 +19,7 @@
 #include <thread>
 #include <vector>
 #include <ndn-svs/svspubsub.hpp>
+#include <stdlib.h>
 #include "log.hpp"
 
 using namespace ndn::svs;
