@@ -1,0 +1,54 @@
+diff --git a/ndn-svs/common.hpp b/ndn-svs/common.hpp
+index eb44aa0..86b2b3d 100644
+--- a/ndn-svs/common.hpp
++++ b/ndn-svs/common.hpp
+@@ -30,6 +30,14 @@
+ #endif
+ 
+ #include<iostream>
++
++#define BOOST_LOG_DYN_LINK 1
++
++#include <boost/log/core.hpp>
++#include <boost/log/trivial.hpp>
++#include <boost/log/utility/setup/common_attributes.hpp>
++#include <boost/log/utility/setup/file.hpp>
++
+ namespace ndn {
+ namespace svs {
+ 
+diff --git a/ndn-svs/core.cpp b/ndn-svs/core.cpp
+index ca476ae..5bbc61e 100644
+--- a/ndn-svs/core.cpp
++++ b/ndn-svs/core.cpp
+@@ -137,8 +137,21 @@ SVSyncCore::retxSyncInterest(const bool send, unsigned int delay)
+ 
+     // Only send interest if in steady state or local vector has newer state
+     // than recorded interests
+-    if (!m_recordedVv || mergeStateVector(*m_recordedVv).first)
++    if (!m_recordedVv)
++    {
++      sendSyncInterest();
++      BOOST_LOG_TRIVIAL(info) << "SYNC_REPLY_SENT_NO_RECORD";
++    }
++    else if (mergeStateVector(*m_recordedVv).first)
++    {
+       sendSyncInterest();
++      BOOST_LOG_TRIVIAL(info) << "SYNC_REPLY_SENT_RECORD_OLD";
++    }
++    else
++    {
++      BOOST_LOG_TRIVIAL(info) << "SYNC_REPLY_SUPPRESSED";
++    }
++
+     m_recordedVv = nullptr;
+   }
+ 
+@@ -186,6 +199,7 @@ SVSyncCore::sendSyncInterest()
+   }
+ 
+   m_face.expressInterest(interest, nullptr, nullptr, nullptr);
++  BOOST_LOG_TRIVIAL(info) << "SEND_SYNC_INT";
+ }
+ 
+ std::pair<bool, bool>
