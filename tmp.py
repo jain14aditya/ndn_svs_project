@@ -46,13 +46,14 @@ from tqdm import tqdm
 OVERALL_RUN = 2
 DEBUG_GDB = False
 NUM_NODES = 2
-PUB_TIMING_VALS = [1000, 5000, 10000, 15000]
+# PUB_TIMING_VALS = [1000, 5000, 10000, 15000]
+PUB_TIMING_VALS = [1000]
 RUN_NUMBER_VALS = list(range(1, 4))
 
 cwd=os.getcwd()+"/"
 
-LOG_PREFIX = "default_topology_4_n"
-TOPO_FILE = cwd+"topologies/default_topology_4_n.conf"
+LOG_PREFIX = "default_topology_2_n"
+TOPO_FILE = cwd+"topologies/default_topology_2_n.conf"
 
 SYNC_EXEC_VALS = [
     cwd+"ndn-svs/build/examples/chat",          # SVS
@@ -110,6 +111,29 @@ class SvsChatApplication(Application):
 
         ret = self.node.cmd(run_cmd)
         info("[{}] running {} == {}\n".format(self.node.name, run_cmd, ret))
+
+
+class ProducerChatApplication(Application):
+    """
+    Wrapper class to run the chat application from each node
+    """
+    def get_svs_identity(self):
+        return "/ndn/{0}-site/{0}/svs_chat/{0}".format(self.node.name)
+
+    def start(self):
+        exe =  cwd+"ndn-svs/build/examples/custom_chat",  
+        identity = self.get_svs_identity()
+
+        if DEBUG_GDB:
+            run_cmd = "gdb -batch -ex run -ex=\"set confirm off\" -ex \"bt full\" -ex quit --args {0} {1} {2}/{3}.log {4} >{2}/stdout/{3}.log 2>{2}/stderr/{3}.log &".format(
+                exe, identity, getLogPath(), self.node.name, PUB_TIMING)
+        else:
+            run_cmd = "{0} {1} {2}/{3}.log {4} >{2}/stdout/{3}.log 2>{2}/stderr/{3}.log &".format(
+                exe, identity, getLogPath(), self.node.name, PUB_TIMING)
+
+        ret = self.node.cmd(run_cmd)
+        info("[{}] running {} == {}\n".format(self.node.name, run_cmd, ret))
+
 
 def count_running(pids):
     return sum(psutil.pid_exists(pid) for pid in pids)
@@ -180,14 +204,16 @@ if __name__ == '__main__':
 
                 time.sleep(1)
 
-                random.seed(RUN_NUMBER)
+                # random.seed(RUN_NUMBER)
                 allowed_hosts = [x for x in ndn.net.hosts if len(x.intfList()) < 8]
-                pub_hosts = random.sample(allowed_hosts, NUM_NODES)
+                print(allowed_hosts)
+                # pub_hosts = random.sample(allowed_hosts, NUM_NODES)
 
                 # ================= SVS BEGIN ====================================
 
                 # identity_app = AppManager(ndn, pub_hosts, IdentityApplication)
-                svs_chat_app = AppManager(ndn, pub_hosts, SvsChatApplication)
+                # svs_chat_app = AppManager(ndn, pub_hosts, SvsChatApplication
+                svs_chat_app = AppManager(ndn, allowed_hosts, SvsChatApplication)
 
                 # =================== SVS END ====================================
 

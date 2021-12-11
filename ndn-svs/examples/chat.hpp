@@ -44,19 +44,20 @@ public:
   void
   run()
   {
-    std::thread thread_svs([this] { face.processEvents(); });
+    face.processEvents(); 
+    // std::thread thread_svs([this] { face.processEvents(); });
 
-    std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
-    publishMsg(init_msg);
+    // std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
+    // publishMsg(init_msg);
 
-    std::string userInput = "";
+    // std::string userInput = "";
 
-    while (true) {
-      std::getline(std::cin, userInput);
-      publishMsg(userInput);
-    }
+    // while (true) {
+    //   std::getline(std::cin, userInput);
+    //   publishMsg(userInput);
+    // }
 
-    thread_svs.join();
+    // thread_svs.join();
   }
 
 protected:
@@ -108,6 +109,7 @@ callMain(int argc, char **argv) {
   opt.prefix = "/ndn/svs";
   opt.m_id = argv[1];
   //opt.m_id = "a";
+  initlogger(std::string(argv[2]));
   T program(opt);
   program.run();
   return 0;

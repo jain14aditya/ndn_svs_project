@@ -115,10 +115,10 @@ public:
 
 int main(int argc, char **argv)
 {
-  if (argc != 2) {
-    std::cout << "Usage: client <prefix>" << std::endl;
-    exit(1);
-  }
+  // if (argc != 2) {
+  //   std::cout << "Usage: client <prefix>" << std::endl;
+  //   exit(1);
+  // }
 
   Options opt;
   opt.prefix = "/ndn/svs";
