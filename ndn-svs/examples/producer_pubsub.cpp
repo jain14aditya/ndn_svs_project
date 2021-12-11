@@ -71,12 +71,12 @@ public:
     publishMsg(init_msg);
 
     std::string userInput = "";
-    publishMsg("hello world");
-    int cnt = 0;
+    // publishMsg("hello world");
+    // int cnt = 0;
     while (true) {
-      // std::getline(std::cin, userInput);
+      std::getline(std::cin, userInput);
       // userInput = userInput + std::to_string(cnt);
-      // publishMsg(userInput);
+      publishMsg(userInput);
     }
     // publishMsg("qwerty hi1");
     // publishMsg("qwerty hi2");

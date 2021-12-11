@@ -65,11 +65,12 @@ public:
      m_svspubsub->subscribeToProducer(ndn::Name("/ndn"), [&] (SVSPubSub::SubscriptionData subData)
     {
       const size_t data_size = subData.data.getContent().value_size();
-      int segments = subData.data.getFinalBlock()->toNumber();
+      // int segments = subData.data.getFinalBlock()->toNumber();
       const std::string content_str((char *) subData.data.getContent().value(), data_size);
-
-      std::cout << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
-                   subData.data.getName() << " : " << content_str << " finalBlockId = " << segments << std::endl;
+       std::cout << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
+                   subData.data.getName() << " : " << content_str  << std::endl;
+      // std::cout << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
+      //              subData.data.getName() << " : " << content_str << " finalBlockId = " << segments << std::endl;
       // fetchOutStandingVoiceSegements(subData.data.getName(), segments);
     }, true);
   }
@@ -82,12 +83,12 @@ public:
 
     std::string init_msg = "User " + m_options.m_id + " has joined the groupchat";
     publishMsg(init_msg);
-    publishMsg("hello from B");
+    // publishMsg("hello from B");
     std::string userInput = "";
 
     while (true) {
       std::getline(std::cin, userInput);
-      // publishMsg(userInput);
+      publishMsg(userInput);
     }
 
     thread_svs.join();
