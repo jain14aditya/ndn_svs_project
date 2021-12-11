@@ -112,8 +112,8 @@ public:
     // publishMsg("testing second msg");
     // int cnt = 0;
     while (true) {
-      std::string s2 = return_current_time_and_date() + "=testing second msg";
-      publishMsg(s2);
+      // std::string s2 = return_current_time_and_date() + "=testing second msg";
+      // publishMsg(s2);
       // publishMsg(return_current_time_and_date());
       // std::getline(std::cin, userInput);
       // userInput = userInput + std::to_string(cnt);
