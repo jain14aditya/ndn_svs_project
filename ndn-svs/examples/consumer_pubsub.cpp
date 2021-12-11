@@ -153,8 +153,11 @@ protected:
         // Generate a block of random Data
         std::array<__uint8_t, 1000> buf{};
         ndn::random::generateSecureBytes(buf.data(), 512);
+        // ndn::Block block = ndn::encoding::makeBinaryBlock(
+        //         ndn::tlv::Content, buf.data(), 512);
+        std::string msg = "hello world";
         ndn::Block block = ndn::encoding::makeBinaryBlock(
-                ndn::tlv::Content, buf.data(), 512);
+          ndn::tlv::Content, reinterpret_cast<const uint8_t*>(msg.c_str()), msg.size());
 
         // Data packet
         ndn::Name realName(name);
