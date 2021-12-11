@@ -48,7 +48,8 @@ DEBUG_GDB = False
 NUM_NODES = 2
 # PUB_TIMING_VALS = [1000, 5000, 10000, 15000]
 PUB_TIMING_VALS = [1000]
-RUN_NUMBER_VALS = list(range(1, 4))
+# RUN_NUMBER_VALS = list(range(1, 4))
+RUN_NUMBER_VALS = list(range(1, 2))
 
 cwd=os.getcwd()+"/"
 

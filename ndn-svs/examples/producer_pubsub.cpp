@@ -76,7 +76,7 @@ public:
       // std::getline(std::cin, userInput);
       // publishMsg(userInput);
     // }
-    publishMsg("qwerty hi");
+    // publishMsg("qwerty hi");
     thread_svs.join();
   }
 
