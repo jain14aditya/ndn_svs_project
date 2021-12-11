@@ -22,17 +22,22 @@
 #include <stdlib.h>
 
 #include <chrono>
-#include "date.h"
+// #include "date.h"
+#include <ctime>
 #include <string>
 #include <sstream>
 
 std::string return_current_time_and_date() {
-  auto now = std::chrono::system_clock::now();
-  auto today = date::floor<days>(now);
-
+  std::time_t result = std::time(nullptr);
   std::stringstream ss;
-  ss << today << ' ' << date::make_time(now - today) << " UTC";
+  ss << std::asctime(std::localtime(&result)) << result;
   return ss.str();
+  // auto now = std::chrono::system_clock::now();
+
+  
+  // ss << 
+  // ss << today << ' ' << date::make_time(now - today) << " UTC";
+  // return ss.str();
 }
 
 using namespace ndn::svs;
