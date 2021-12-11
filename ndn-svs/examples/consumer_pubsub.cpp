@@ -90,7 +90,7 @@ public:
       if(recv_data_packets==1) {
         start_time = std::stoll(content_str.substr(0, content_str.find("=")));
       }
-      std::cout << "recv_data_packets = " << recv_data_packets << std::endl;
+      // std::cout << "recv_data_packets = " << recv_data_packets << std::endl;
       // int segments = subData.data.getFinalBlock()->toNumber();
       
       if(recv_data_packets==num_data_packets) {
