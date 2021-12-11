@@ -165,7 +165,7 @@ protected:
         data->setFreshnessPeriod(ndn::time::milliseconds(1000));
         data->setFinalBlock(ndn::name::Component::fromNumber(voiceSize - 1));
         // *
-        m_keyChain.sign(data, m_signingInfo);
+        m_keyChain.sign(*data, m_signingInfo);
 
         // m_dataStore.insert(*data);
 
