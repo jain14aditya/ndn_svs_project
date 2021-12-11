@@ -1,0 +1,15 @@
+SVS client starting:/ndn/a-site/a/svs_chat/a
+latency =  1142ms timestamp = 1639201861593 /ndn/c-site/c/svs_chat/c[1] : /ndn/c-site/c/svs_chat/c/t=1639201860451221 : 1639201860451=hello world
+latency =  1136ms timestamp = 1639201861593 /ndn/b-site/b/svs_chat/b[1] : /ndn/b-site/b/svs_chat/b/t=1639201860457429 : 1639201860457=hello world
+latency =  1141ms timestamp = 1639201861593 /ndn/c-site/c/svs_chat/c[2] : /ndn/c-site/c/svs_chat/c/t=1639201860452159 : 1639201860452=testing second msg
+latency =  1136ms timestamp = 1639201861594 /ndn/b-site/b/svs_chat/b[2] : /ndn/b-site/b/svs_chat/b/t=1639201860458431 : 1639201860458=testing second msg
+SVS client starting:/ndn/b-site/b/svs_chat/b
+latency =  1144ms timestamp = 1639201861593 /ndn/a-site/a/svs_chat/a[1] : /ndn/a-site/a/svs_chat/a/t=1639201860449845 : 1639201860449=hello world
+latency =  1143ms timestamp = 1639201861593 /ndn/a-site/a/svs_chat/a[2] : /ndn/a-site/a/svs_chat/a/t=1639201860450459 : 1639201860450=testing second msg
+latency =  1342ms timestamp = 1639201861793 /ndn/c-site/c/svs_chat/c[1] : /ndn/c-site/c/svs_chat/c/t=1639201860451221 : 1639201860451=hello world
+latency =  1342ms timestamp = 1639201861794 /ndn/c-site/c/svs_chat/c[2] : /ndn/c-site/c/svs_chat/c/t=1639201860452159 : 1639201860452=testing second msg
+SVS client starting:/ndn/c-site/c/svs_chat/c
+latency =  974ms timestamp = 1639201861423 /ndn/a-site/a/svs_chat/a[1] : /ndn/a-site/a/svs_chat/a/t=1639201860449845 : 1639201860449=hello world
+latency =  974ms timestamp = 1639201861424 /ndn/a-site/a/svs_chat/a[2] : /ndn/a-site/a/svs_chat/a/t=1639201860450459 : 1639201860450=testing second msg
+latency =  1335ms timestamp = 1639201861792 /ndn/b-site/b/svs_chat/b[1] : /ndn/b-site/b/svs_chat/b/t=1639201860457429 : 1639201860457=hello world
+latency =  1335ms timestamp = 1639201861793 /ndn/b-site/b/svs_chat/b[2] : /ndn/b-site/b/svs_chat/b/t=1639201860458431 : 1639201860458=testing second msg
