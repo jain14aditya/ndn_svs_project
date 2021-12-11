@@ -175,6 +175,7 @@ protected:
         std::cout << "Publish voice data: " << data->getName() << " (" << buf.size() * voiceSize << " bytes)"
                       << std::endl;
         // }
+    }
   }
 
 public:
