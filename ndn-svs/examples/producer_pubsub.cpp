@@ -80,7 +80,7 @@ public:
       const size_t data_size = subData.data.getContent().value_size();
       const std::string content_str((char *) subData.data.getContent().value(), data_size);
 
-      std::cout << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
+      std::cout << "timestamp = " << return_current_time_and_date() << " " << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
                    subData.data.getName() << " : " << content_str << std::endl;
     }, true);
   }
