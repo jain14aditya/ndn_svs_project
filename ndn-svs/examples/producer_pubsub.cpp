@@ -100,12 +100,12 @@ public:
   
 
     // std::string s = date::format("%F %T", std::chrono::system_clock::now());
-    string s1 = return_current_time_and_date() + "=hello world";
+    std::string s1 = return_current_time_and_date() + "=hello world";
     publishMsg(s1);
     // publishMsg(return_current_time_and_date());
     // publishMsg("hello world");
 
-    string s2 = return_current_time_and_date() + "=testing second msg";
+    std::string s2 = return_current_time_and_date() + "=testing second msg";
     publishMsg(s2);
 
     // publishMsg(return_current_time_and_date());
