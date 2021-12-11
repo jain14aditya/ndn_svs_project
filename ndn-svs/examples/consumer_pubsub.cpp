@@ -28,7 +28,7 @@
 
 using namespace ndn::svs;
 
-
+int data_size = 5;
 std::string return_current_time_and_date() {
   // std::time_t result = std::time(nullptr);
   const auto p1 = std::chrono::system_clock::now();
@@ -140,7 +140,6 @@ protected:
     // if (receivedSigInt) return;
     // m_participantPrefix
     // Number of data segments
-    int voiceSize = 5;
 
     ndn::Name name("/ndn");
     name.append(m_options.m_id);
@@ -148,16 +147,28 @@ protected:
     name.appendVersion(0);
 
     // Create all data segments
-    for (int i = 0; i < voiceSize; i++) {
+    for (int i = 0; i < data_size; i++) {
 
         // Generate a block of random Data
-        std::array<__uint8_t, 1000> buf{};
-        ndn::random::generateSecureBytes(buf.data(), 512);
+        // std::array<__uint8_t, 1000> buf{};
+        // ndn::random::generateSecureBytes(buf.data(), 512);
         // ndn::Block block = ndn::encoding::makeBinaryBlock(
         //         ndn::tlv::Content, buf.data(), 512);
-        std::string msg = "hello world";
+
+        // Generate a block of random Data
+        std::array<__uint8_t, 114> buf{};
+        ndn::random::generateSecureBytes(buf.data(), 114);
+        std::string s = return_current_time_and_date();
+        for(int j=0; j<13; j++) {
+          buf[j] = s[j];
+        }
+        buf[13] = '=';
+
         ndn::Block block = ndn::encoding::makeBinaryBlock(
-          ndn::tlv::Content, reinterpret_cast<const uint8_t*>(msg.c_str()), msg.size());
+                ndn::tlv::Content, buf.data(), 114);
+        // std::string msg = return_current_time_and_date() + "=hello_world";
+        // ndn::Block block = ndn::encoding::makeBinaryBlock(
+          // ndn::tlv::Content, reinterpret_cast<const uint8_t*>(msg.c_str()), msg.size());
 
         // Data packet
         ndn::Name realName(name);
@@ -166,7 +177,7 @@ protected:
         std::shared_ptr<ndn::Data> data = std::make_shared<ndn::Data>(realName);
         data->setContent(block);
         data->setFreshnessPeriod(ndn::time::milliseconds(1000));
-        data->setFinalBlock(ndn::name::Component::fromNumber(voiceSize - 1));
+        data->setFinalBlock(ndn::name::Component::fromNumber(data_size - 1));
         // *
         m_keyChain.sign(*data, m_signingInfo);
 
@@ -176,7 +187,9 @@ protected:
         // if (i == 0) {
         m_svspubsub->publishData(*data);
             // BOOST_LOG_TRIVIAL(info) << "PUBL_MSG::" << realName.toUri();
-        std::cout << "Publish voice data: " << data->getName() << " (" << msg.size() * voiceSize << " bytes)"
+        // std::cout << "Publish voice data: " << data->getName() << " (" << msg.size() * data_size << " bytes)"
+        //               << std::endl;
+        std::cout << "Publish voice data: " << data->getName() << " (" << buf.size() < " bytes)"
                       << std::endl;
         // }
     }
@@ -200,6 +213,7 @@ int main(int argc, char **argv)
   Options opt;
   opt.prefix = "/ndn/svs";
   opt.m_id = argv[1];
+  // data_size=argv[3];
   // initlogger(std::string(argv[2]));
   Program program(opt);
   program.run();
