@@ -101,8 +101,12 @@ class SvsChatApplication(Application):
     def start(self): 
         exe = SYNC_EXEC
         print(self.node.name)
+        # if self.node.name == "a": 
+        #     exe =  cwd+"ndn-svs/build/examples/producer_chat" 
         if self.node.name == "a": 
-            exe =  cwd+"ndn-svs/build/examples/producer_chat"  
+            exe =  cwd+"ndn-svs/build/examples/producer_pubsub"  
+        if self.node.name == "b": 
+            exe =  cwd+"ndn-svs/build/examples/consumer_pubsub"  
         identity = self.get_svs_identity()
 
         if DEBUG_GDB:
