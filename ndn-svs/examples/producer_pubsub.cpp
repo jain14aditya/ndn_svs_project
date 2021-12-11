@@ -31,6 +31,7 @@ std::string return_current_time_and_date() {
   std::time_t result = std::time(nullptr);
   std::stringstream ss;
   ss << std::asctime(std::localtime(&result)) << result;
+  std::cout << "testing = " << ss.str() << std::endl;
   return ss.str();
   // auto now = std::chrono::system_clock::now();
 
@@ -94,10 +95,11 @@ public:
   
 
     // std::string s = date::format("%F %T", std::chrono::system_clock::now());
-    publishMsg(return_current_time_and_date());
+    // publishMsg(return_current_time_and_date());
     // publishMsg("hello world");
     // int cnt = 0;
     while (true) {
+      publishMsg(return_current_time_and_date());
       // std::getline(std::cin, userInput);
       // userInput = userInput + std::to_string(cnt);
       // publishMsg(userInput);
