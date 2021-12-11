@@ -97,7 +97,7 @@ public:
         std::string curr_time_str = return_current_time_and_date();
         long long curr_time_ll = std::stoll(curr_time_str);
         long long lat = curr_time_ll - start_time;
-        std::cout << "latency = " << lat << "ms " << subData.producerPrefix << "[" << subData.seqNo << "] : "  << std::endl;
+        std::cout << "latency = " << lat << "ms end_time" << curr_time_ll << " start_time = " << start_time << " " << subData.producerPrefix << "[" << subData.seqNo << "] : "  << std::endl;
       }
        
       // std::cout << subData.producerPrefix << "[" << subData.seqNo << "] : " <<
