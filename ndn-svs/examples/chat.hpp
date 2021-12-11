@@ -109,7 +109,7 @@ callMain(int argc, char **argv) {
   opt.prefix = "/ndn/svs";
   opt.m_id = argv[1];
   //opt.m_id = "a";
-  initlogger(std::string(argv[2]));
+  // initlogger(std::string(argv[2]));
   T program(opt);
   program.run();
   return 0;
