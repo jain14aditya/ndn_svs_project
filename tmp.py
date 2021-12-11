@@ -98,8 +98,11 @@ class SvsChatApplication(Application):
     def get_svs_identity(self):
         return "/ndn/{0}-site/{0}/svs_chat/{0}".format(self.node.name)
 
-    def start(self):
+    def start(self): 
         exe = SYNC_EXEC
+        print(self.node.name)
+        if self.node.name == "a": 
+            exe =  cwd+"ndn-svs/build/examples/producer_chat"  
         identity = self.get_svs_identity()
 
         if DEBUG_GDB:
@@ -121,7 +124,7 @@ class ProducerChatApplication(Application):
         return "/ndn/{0}-site/{0}/svs_chat/{0}".format(self.node.name)
 
     def start(self):
-        exe =  cwd+"ndn-svs/build/examples/custom_chat",  
+        exe =  cwd+"ndn-svs/build/examples/producer_chat"
         identity = self.get_svs_identity()
 
         if DEBUG_GDB:
@@ -213,8 +216,8 @@ if __name__ == '__main__':
 
                 # identity_app = AppManager(ndn, pub_hosts, IdentityApplication)
                 # svs_chat_app = AppManager(ndn, pub_hosts, SvsChatApplication
-                svs_chat_app = AppManager(ndn, allowed_hosts[0], SvsChatApplication)
-                producer_chat_app = AppManager(ndn, allowed_hosts[1], ProducerChatApplication)
+                svs_chat_app = AppManager(ndn, allowed_hosts, SvsChatApplication)
+                # producer_chat_app = AppManager(ndn, allowed_hosts, ProducerChatApplication)
 
                 # =================== SVS END ====================================
 
