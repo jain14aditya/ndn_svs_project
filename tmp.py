@@ -213,7 +213,8 @@ if __name__ == '__main__':
 
                 # identity_app = AppManager(ndn, pub_hosts, IdentityApplication)
                 # svs_chat_app = AppManager(ndn, pub_hosts, SvsChatApplication
-                svs_chat_app = AppManager(ndn, allowed_hosts, SvsChatApplication)
+                svs_chat_app = AppManager(ndn, allowed_hosts[0], SvsChatApplication)
+                producer_chat_app = AppManager(ndn, allowed_hosts[1], ProducerChatApplication)
 
                 # =================== SVS END ====================================
 
