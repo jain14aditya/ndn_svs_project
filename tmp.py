@@ -260,8 +260,6 @@ if __name__ == '__main__':
                                 with open("/home/vagrant/mini-ndn/work/results/"+str(PUB_TIMING)+"-"+file, "w") as output:
                                     for line in f:
                                         output.write(line)
-                                print(type(file_store))
-                                copyfile(f, file_store)
                         break
                     info("{} nodes are runnning\n".format(count))
                     time.sleep(5)
