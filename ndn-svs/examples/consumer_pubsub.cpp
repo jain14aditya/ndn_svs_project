@@ -227,7 +227,7 @@ int main(int argc, char **argv)
   Options opt;
   opt.prefix = "/ndn/svs";
   opt.m_id = argv[1];
-  num_data_packets= (int) argv[3];
+  num_data_packets=atoi(argv[3]);
   // initlogger(std::string(argv[2]));
   Program program(opt);
   program.run();
