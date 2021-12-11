@@ -98,10 +98,10 @@ public:
 
     // std::string s = date::format("%F %T", std::chrono::system_clock::now());
     publishMsg(return_current_time_and_date());
-    publishMsg("hello world rdxdtfabcgsvfghsavfghdsvfghfbdsgbghsafhgdszvfygdsfvhgjdsfhgdbfghfbagsh");
+    publishMsg("hello world");
 
     publishMsg(return_current_time_and_date());
-    publishMsg("yo yo kgp");
+    publishMsg("testing second msg");
     // int cnt = 0;
     while (true) {
       // publishMsg(return_current_time_and_date());
