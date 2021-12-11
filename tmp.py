@@ -258,7 +258,7 @@ if __name__ == '__main__':
                         files_generated=os.listdir(dir_path)
                         for file in files_generated:
                             with open(dir_path+"/"+file, "r") as f:
-                                copy(f, "/home/vagrant/mini-ndn/work/results/"+str(PUB_TIMING)+"/")
+                                copy(f, str("/home/vagrant/mini-ndn/work/results/"+str(PUB_TIMING)+"/"))
                         break
                     info("{} nodes are runnning\n".format(count))
                     time.sleep(5)
