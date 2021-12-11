@@ -47,8 +47,8 @@ OVERALL_RUN = 2
 DEBUG_GDB = False
 NUM_NODES = 2
 # PUB_TIMING_VALS = [1000, 5000, 10000, 15000]
-PUB_TIMING_VALS = [1000]
-num_data_packets = 5
+PUB_TIMING_VALS = [5, 100]
+# num_data_packets = 5
 # RUN_NUMBER_VALS = list(range(1, 4))
 RUN_NUMBER_VALS = list(range(1, 2))
 
@@ -129,10 +129,10 @@ class SvsChatApplication(Application):
 
         if DEBUG_GDB:
             run_cmd = "gdb -batch -ex run -ex=\"set confirm off\" -ex \"bt full\" -ex quit --args {0} {1} {2}/{3}.log {4} >{2}/stdout/{3}.log 2>{2}/stderr/{3}.log &".format(
-                exe, identity, getLogPath(), self.node.name, num_data_packets)
+                exe, identity, getLogPath(), self.node.name, PUB_TIMING)
         else:
             run_cmd = "{0} {1} {2}/{3}.log {4} >{2}/stdout/{3}.log 2>{2}/stderr/{3}.log &".format(
-                exe, identity, getLogPath(), self.node.name, num_data_packets)
+                exe, identity, getLogPath(), self.node.name, PUB_TIMING)
 
         ret = self.node.cmd(run_cmd)
         info("[{}] running {} == {}\n".format(self.node.name, run_cmd, ret))
