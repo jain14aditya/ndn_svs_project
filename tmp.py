@@ -41,7 +41,7 @@ from minindn.helpers.ndn_routing_helper import NdnRoutingHelper
 from mininet.node import OVSController
 
 from tqdm import tqdm
-from shutil import copy
+from shutil import copyfile
 
 # ======================= CONFIGURATION ============================
 OVERALL_RUN = 2
@@ -258,7 +258,8 @@ if __name__ == '__main__':
                         files_generated=os.listdir(dir_path)
                         for file in files_generated:
                             with open(dir_path+"/"+file, "r") as f:
-                                copy(f, str("/home/vagrant/mini-ndn/work/results/"+str(PUB_TIMING)+"/"))
+                                file_store="/home/vagrant/mini-ndn/work/results/"+str(PUB_TIMING)+file
+                                copyfile(f, str(file_store))
                         break
                     info("{} nodes are runnning\n".format(count))
                     time.sleep(5)
