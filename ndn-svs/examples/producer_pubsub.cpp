@@ -19,7 +19,7 @@
 #include <thread>
 #include <vector>
 #include <ndn-svs/svspubsub.hpp>
-
+#include "log.hpp"
 using namespace ndn::svs;
 
 class Options
@@ -76,7 +76,10 @@ public:
       // std::getline(std::cin, userInput);
       // publishMsg(userInput);
     // }
-    // publishMsg("qwerty hi");
+    publishMsg("qwerty hi1");
+    publishMsg("qwerty hi2");
+    publishMsg("qwerty hi3");
+    publishMsg("qwerty hi4");
     thread_svs.join();
   }
 
@@ -123,7 +126,7 @@ int main(int argc, char **argv)
   Options opt;
   opt.prefix = "/ndn/svs";
   opt.m_id = argv[1];
-
+  initlogger(std::string(argv[2]));
   Program program(opt);
   program.run();
   return 0;

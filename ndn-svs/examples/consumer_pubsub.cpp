@@ -19,6 +19,7 @@
 #include <thread>
 #include <vector>
 #include <ndn-svs/svspubsub.hpp>
+#include "log.hpp"
 
 using namespace ndn::svs;
 
@@ -136,7 +137,7 @@ int main(int argc, char **argv)
   Options opt;
   opt.prefix = "/ndn/svs";
   opt.m_id = argv[1];
-
+  initlogger(std::string(argv[2]));
   Program program(opt);
   program.run();
   return 0;
